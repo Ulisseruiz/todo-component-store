@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
 import { TodosModule } from './todos';
 
 import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, TodosModule],
+  imports: [BrowserModule, HttpClientModule, TodosModule],
   providers: [],
   bootstrap: [AppComponent],
 })

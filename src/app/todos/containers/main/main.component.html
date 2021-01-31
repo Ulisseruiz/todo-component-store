@@ -1,0 +1,42 @@
+<div class="flex justify-center">
+  <div class="container">
+    <ng-container *ngrxLet="vm$ as data">
+      <ng-container *ngIf="data!.error; else noError">
+        <app-todos-alert></app-todos-alert>
+      </ng-container>
+      <ng-template #noError>
+        <ng-container *ngIf="data!.loaded; else spinner">
+          <app-todos-grid [data]="data!.todos.todos"></app-todos-grid>
+        </ng-container>
+        <ng-template #spinner>
+          <app-todos-spinner></app-todos-spinner>
+        </ng-template>
+      </ng-template>
+      <app-todos-form
+        [data]="todo"
+        [loading]="data!.loading"
+        (submitted)="handlerSubmit($event)"
+      ></app-todos-form>
+    </ng-container>
+
+    <!--
+    <ng-container *ngrxLet="error$ as error">
+      <ng-container *ngIf="error">
+        <app-todos-alert></app-todos-alert>
+      </ng-container>
+      <ng-container *ngIf="!error">
+        <ng-container *ngrxLet="loaded$ as loaded">
+          <ng-container *ngIf="!loaded"
+            ><app-todos-spinner></app-todos-spinner>
+          </ng-container>
+          <ng-container *ngIf="loaded">
+            <ng-container *ngrxLet="todos$ as data">
+              <app-todos-grid [data]="data!.todos"></app-todos-grid>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+ -->
+  </div>
+</div>

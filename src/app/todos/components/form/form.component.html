@@ -1,0 +1,34 @@
+<form class="w-full" (ngSubmit)="onSubmit()" [formGroup]="frm" novalidate>
+  <div
+    class="border border-white bg-white flex items-center rounded-full shadow-xl"
+  >
+    <input type="hidden" formControlName="id" />
+    <input type="hidden" formControlName="isComplete" />
+    <input
+      type="text"
+      formControlName="content"
+      class="rounded-l-full w-full py-4 px-6 text-gray-500 leading-tight focus:outline-none"
+      placeholder="Write a new task"
+    />
+    <div class="p-4">
+      <button
+        class="bg-indigo-500 text-white rounded-full p-2 hover:bg-indigo-400 focus:outline-none w-12 h-12 flex items-center justify-center"
+      >
+        <svg
+          class="text-white h-8 w-8"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</form>

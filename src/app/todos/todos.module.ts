@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveComponentModule } from '@ngrx/component';
 
-import { TodosMainComponent } from './main/main.component';
+import * as fromComponents from './components';
+import { TodosMainComponent } from './containers/main/main.component';
 
 @NgModule({
-  declarations: [TodosMainComponent],
+  declarations: [...fromComponents.components, TodosMainComponent],
   exports: [TodosMainComponent],
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ReactiveComponentModule],
 })
 export class TodosModule {}

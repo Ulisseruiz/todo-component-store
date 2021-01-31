@@ -1,6 +1,6 @@
 # Angular Todo component store
 
-A simple todo using angular @ngrx/component-store and @ngneat/tailwind
+A simple todo using angular @ngrx/component-store, @ngrx/component and @ngneat/tailwind
 
 ## Run
 
