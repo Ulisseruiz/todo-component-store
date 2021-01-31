@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { TodoDto } from '../../models';
-
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { TodoDto, TodoActions, TodoActionsType } from '../../models';
 import { TodosService, TodosState, TodosStore } from '../../services';
 
 @Component({
@@ -9,20 +9,37 @@ import { TodosService, TodosState, TodosStore } from '../../services';
   styleUrls: ['./main.component.css'],
   providers: [TodosService, TodosStore],
 })
-export class TodosMainComponent implements OnInit {
-  /*readonly error$ = this.store.error$;
-  readonly loaded$ = this.store.loaded$;
-  readonly loading$ = this.store.loading$;
-  readonly todos$ = this.store.todos$;*/
+export class TodosMainComponent {
+  readonly vm$: Observable<TodosState> = this.store.vm$;
+  todo$!: Observable<TodoDto | undefined>;
 
-  readonly vm$ = this.store.vm$;
+  constructor(
+    private ref: ChangeDetectorRef,
+    private readonly store: TodosStore
+  ) {}
 
-  todo: TodoDto | undefined;
-
-  constructor(private readonly store: TodosStore) {}
-
-  ngOnInit(): void {}
   handlerSubmit(data: TodoDto): void {
-    this.store.create(data);
+    data.id ? this.store.update(data) : this.store.create(data);
+  }
+  onHandleAcions(data: TodoActions): void {
+    const { action, data: todo } = data;
+    switch (action) {
+      case 'delete':
+        this.store.remove(todo);
+        break;
+      case 'isComplete':
+        todo.isComplete = +todo.isComplete ? '0' : '1';
+        this.store.update(todo);
+        break;
+      case 'update':
+        const id = todo.id;
+        if (id) {
+          this.todo$ = this.store.selectTodo(id);
+          this.ref.detectChanges();
+        }
+        break;
+      default:
+        throw new Error('Invalid action');
+    }
   }
 }

@@ -1,11 +1,14 @@
 import {
+  ChangeDetectorRef,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   HostBinding,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -16,17 +19,12 @@ import { TodoDto } from '../../models';
   selector: 'app-todos-form',
   templateUrl: './form.component.html',
 })
-export class TodosFormComponent implements OnInit {
+export class TodosFormComponent implements OnChanges, OnInit {
   @HostBinding('class') classList = 'w-full';
   @Input() data!: TodoDto | undefined;
-  @Input() loading!: boolean;
   @Output() submitted = new EventEmitter<TodoDto>();
 
   frm!: FormGroup;
-
-  get isDisabled(): boolean {
-    return this.frm.invalid || this.loading;
-  }
 
   constructor(private fb: FormBuilder) {}
 
@@ -34,10 +32,17 @@ export class TodosFormComponent implements OnInit {
     this.createForm();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.data && !changes.data.firstChange) {
+      const data = changes.data.currentValue;
+      this.frm.setValue(data);
+    }
+  }
+
   createForm(): void {
     this.frm = this.fb.group({
       id: [null],
-      isComplete: [0],
+      isComplete: ['0'],
       content: ['', Validators.required],
     });
   }

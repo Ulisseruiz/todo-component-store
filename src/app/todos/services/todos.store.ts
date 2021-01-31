@@ -25,26 +25,23 @@ export class TodosStore extends ComponentStore<TodosState> {
     super(todosInitialState);
     this.all();
   }
-  readonly error$ = this.select((state: TodosState) => {
+
+  private readonly error$ = this.select((state: TodosState) => {
     return state.error;
   });
-  readonly loaded$ = this.select((state: TodosState) => {
+
+  private readonly loaded$ = this.select((state: TodosState) => {
     return state.loaded;
   });
-  readonly loading$ = this.select((state: TodosState) => {
+
+  private readonly loading$ = this.select((state: TodosState) => {
     return state.loading;
   });
-  readonly todos$ = this.select((state: TodosState) => {
-    return {
-      todos: state.todos,
-    };
+
+  private readonly todos$ = this.select((state: TodosState) => {
+    return state.todos;
   });
-  /**
-   *  If you don't use *ngrxLet
-   *  you should use vm$ in your view
-   *  to have a single subscription.
-   *  NB You have to ngZone enable
-   */
+
   readonly vm$ = this.select(
     this.error$,
     this.loaded$,
@@ -128,7 +125,7 @@ export class TodosStore extends ComponentStore<TodosState> {
         },
       }),
       concatMap((todo: TodoDto) =>
-        this.service.create(todo).pipe(
+        this.service.update(todo).pipe(
           tap({
             next: (res) => {
               const { id } = todo;
@@ -144,6 +141,34 @@ export class TodosStore extends ComponentStore<TodosState> {
                   }),
                 };
               });
+            },
+            error: (e) => {
+              this.setState((state) => {
+                return {
+                  ...state,
+                  error: true,
+                };
+              });
+            },
+          }),
+          catchError(() => EMPTY)
+        )
+      )
+    );
+  });
+
+  readonly remove = this.effect<TodoDto>((todos$: Observable<TodoDto>) => {
+    return todos$.pipe(
+      tap({
+        next: () => {
+          this.setLoading(true);
+        },
+      }),
+      concatMap((todo: TodoDto) =>
+        this.service.remove(todo).pipe(
+          tap({
+            next: (res) => {
+              this.all();
             },
             error: (e) => {
               this.setState((state) => {

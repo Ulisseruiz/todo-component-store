@@ -2,10 +2,20 @@
   <div
     class="w-full flex justify-start items-center rounded-full shadow-md bg-gray-50 px-6 py-6"
   >
-    <p class="text-gray-500 tracking-wide line-through">{{ data.content }}</p>
+    <p
+      (click)="onHandleAcions('isComplete', data)"
+      [ngClass]="{ 'line-through': +data.isComplete }"
+      class="w-full text-gray-500 tracking-wide bg-red-400"
+    >
+      {{ data.content }}
+    </p>
   </div>
-  <div class="opacity-100">
+  <div
+    class="transition-opacity"
+    [ngClass]="isVisible ? 'opacity-100' : 'opacity-0'"
+  >
     <button
+      (click)="onHandleAcions('update', data)"
       class="absolute top-0 right-0 bg-indigo-500 text-white rounded-full p-0 hover:bg-indigo-400 focus:outline-none w-8 h-8 flex items-center justify-center"
     >
       <svg
@@ -25,8 +35,8 @@
     </button>
 
     <button
-      onClick="{onDeleteTodo}"
-      className="absolute bottom-0 right-0 bg-red-500 text-white rounded-full p-0 hover:bg-red-400 focus:outline-none w-8 h-8 flex items-center justify-center"
+      (click)="onHandleAcions('delete', data)"
+      class="absolute bottom-0 right-0 bg-red-500 text-white rounded-full p-0 hover:bg-red-400 focus:outline-none w-8 h-8 flex items-center justify-center"
     >
       <svg
         class="text-white h-4 w-4"

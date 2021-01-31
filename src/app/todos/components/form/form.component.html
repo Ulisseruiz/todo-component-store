@@ -12,6 +12,8 @@
     />
     <div class="p-4">
       <button
+        [disabled]="loading"
+        type="submit"
         class="bg-indigo-500 text-white rounded-full p-2 hover:bg-indigo-400 focus:outline-none w-12 h-12 flex items-center justify-center"
       >
         <svg

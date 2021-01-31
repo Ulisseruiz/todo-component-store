@@ -1,5 +1,8 @@
 <div class="w-full">
-  <ng-container *ngFor="let todo of data">
-    <app-todos-row [data]="todo"></app-todos-row>
-  </ng-container>
+  <div *ngFor="let todo of data" class="w-full mb-2">
+    <app-todos-row
+      [data]="todo"
+      (handleAcions)="onHandleAcions($event)"
+    ></app-todos-row>
+  </div>
 </div>

@@ -2,23 +2,8 @@
   "todos": [
     {
       "id": 1,
-      "isComplete": "0",
+      "isComplete": "1",
       "content": "Give me a star :)"
-    },
-    {
-      "id": 2,
-      "isComplete": 0,
-      "content": "ttttt"
-    },
-    {
-      "id": 3,
-      "isComplete": 0,
-      "content": "ttt"
-    },
-    {
-      "id": 4,
-      "isComplete": 0,
-      "content": "tttrrrrr"
     }
   ]
 }
